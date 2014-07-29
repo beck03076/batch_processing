@@ -1,4 +1,4 @@
-def process(p,store)
+def process(p,store,batch_number)
   begin  
     cat_img_list = p.fetch_image_paths    
     p.catalog_images = cat_img_list unless cat_img_list.empty?    
@@ -6,7 +6,7 @@ def process(p,store)
     @s_count += 1        
   rescue Exception => e    
     @errors[p[:product_id]] = e
-    File.open('log/' + store.name + 'batch_load_errors', 'a+') { |file| file.write("\n" + p[:product_id].to_s + ' ' + e.to_s) }        
+    File.open('log/' + store.name + 'batch_load_errors', 'a+') { |file| file.write("\n" + p[:product_id].to_s + '|' + e.to_s + '|' + batch_number) }  
     @f_count += 1    
     print "x(#{p[:product_id]})"    
   end    
@@ -21,7 +21,7 @@ def batch_process(products,store,batch_size = 100,start_from = 1,alert = 10)
   products.each_slice(batch_size).with_index {|(*batch),batch_index|  
   if batch_index + 1 >= start_from
      batch.each_with_index do |p,item_index|    
-      process(p,store)      
+      process(p,store,batch_index)      
       print (((item_index + 1) % alert).zero? ? (item_index + 1) : ".")            
      end        
      @current_batch = batch_index + 1
