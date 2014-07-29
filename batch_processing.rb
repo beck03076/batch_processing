@@ -6,7 +6,7 @@ def process(p,store)
     @s_count += 1        
   rescue Exception => e    
     @errors[p[:product_id]] = e
-    File.open('log/' + store.name + 'batch_load_errors', 'w') { |file| file.write(p[:product_id].to_s + ' ' + e.to_s) }        
+    File.open('log/' + store.name + 'batch_load_errors', 'a+') { |file| file.write(p[:product_id].to_s + ' ' + e.to_s) }        
     @f_count += 1    
     print "x(#{p[:product_id]})"    
   end    
