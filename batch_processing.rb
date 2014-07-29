@@ -31,6 +31,6 @@ def batch_process(products,store,batch_size = 100,start_from = 1,alert = 10)
   puts "\nGod bless you, @errors hash contains all your errors"
  
 rescue
-  puts "rescued from big loop error, starting next batch.."
+  puts "rescued for batch_process termination, mostly from big loop error, starting next batch.."
  batch_process(products,store,batch_size,@current_batch + 1)  
 end
