@@ -21,7 +21,7 @@ def batch_process(products,store,batch_size = 100,start_from = 1,alert = 10)
   products.each_slice(batch_size).with_index {|(*batch),batch_index|  
   if batch_index + 1 >= start_from
      batch.each_with_index do |p,item_index|    
-      process(p,store,batch_index)      
+      process(p,store,batch_index + 1)      
       print (((item_index + 1) % alert).zero? ? (item_index + 1) : ".")            
      end        
      @current_batch = batch_index + 1
